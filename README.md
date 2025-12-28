@@ -42,7 +42,7 @@ Untuk membuka dashboard interaktif, jalankan perintah berikut di terminal:
 streamlit run app.py
 ```
 
-Setelah dijalankan, dashboard akan otomatis terbuka di browser Anda (biasanya di alamat `http://localhost:8501`).
+Setelah dijalankan, dashboard akan otomatis terbuka di browser (biasanya di alamat `http://localhost:8501`).
 
 ## 📊 Ringkasan Insight Bisnis
 Berdasarkan analisis data yang telah dilakukan, berikut adalah temuan-temuan utama:
