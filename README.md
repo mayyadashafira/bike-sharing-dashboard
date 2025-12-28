@@ -44,15 +44,6 @@ streamlit run app.py
 
 Setelah dijalankan, dashboard akan otomatis terbuka di browser Anda (biasanya di alamat `http://localhost:8501`).
 
-### 4. Menjalankan Jupyter Notebook (Opsional)
-
-Jika ingin melihat proses analisis data langkah demi langkah, Anda bisa membuka file notebook:
-
-```bash
-jupyter notebook notebook_analisis.ipynb
-
-```
-
 ## 📊 Ringkasan Insight Bisnis
 Berdasarkan analisis data yang telah dilakukan, berikut adalah temuan-temuan utama:
 
