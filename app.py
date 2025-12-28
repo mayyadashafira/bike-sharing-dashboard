@@ -13,53 +13,70 @@ st.set_page_config(
     page_icon="🚲",
     layout="wide"
 )
+
 st.markdown("""
 <style>
-    /* Background utama */
+    /* Background Utama Putih Bersih */
     .stApp {
-        background-color: #f3e5f5;
+        background-color: #FFFFFF;
+        color: #000000;
     }
     
-    /* Judul dan Header */
+    /* Sidebar Latar Ungu Muda, Tulisan GELAP */
+    [data-testid="stSidebar"] {
+        background-color: #f3e5f5; /* Lavender Muda */
+        border-right: 1px solid #d1c4e9;
+    }
+    
+    /* Memaksa semua tulisan di sidebar jadi Hitam/Ungu Tua */
+    [data-testid="stSidebar"] * {
+        color: #4a148c !important; /* Ungu Tua Gelap */
+    }
+    
+    /* Judul Halaman */
     h1, h2, h3 {
-        color: #4a148c;
+        color: #4a148c !important;
         font-family: 'Helvetica', sans-serif;
     }
     
-    /* Sidebar */
-    [data-testid="stSidebar"] {
-        background-image: linear-gradient(#4a148c, #7b1fa2);
-        color: white;
-    }
-    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] label {
-        color: white !important;
-    }
-    
-    /* Metrics Box */
+    /* Metrics Box (Kotak Angka) */
     div[data-testid="stMetric"] {
-        background-color: #ffffff;
+        background-color: #f8f9fa; /* Abu sangat muda */
+        border: 1px solid #d1c4e9;
         border-radius: 10px;
-        padding: 15px;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-        border-left: 5px solid #7b1fa2;
+        padding: 10px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    /* Label Metric (Judul kecil di atas angka) */
+    [data-testid="stMetricLabel"] {
+        color: #6a1b9a !important; /* Ungu Medium */
+    }
+    /* Value Metric (Angka Besar) */
+    [data-testid="stMetricValue"] {
+        color: #000000 !important; /* Hitam Mutlak */
     }
     
     /* Tabs */
     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
-        font-size: 1.2rem;
-        color: #4a148c;
+        font-size: 1rem;
+        color: #4a148c; /* Tulisan Tab Ungu */
     }
     
-    /* Buttons */
+    /* Tombol */
     .stButton > button {
-        background-color: #7b1fa2;
-        color: white;
+        background-color: #7b1fa2; /* Tombol Ungu */
+        color: white !important;   /* Tulisan di tombol tetap Putih */
         border-radius: 8px;
         border: none;
     }
     .stButton > button:hover {
         background-color: #4a148c;
-        color: white;
+        color: white !important;
+    }
+    
+    /* Input Widgets (Selectbox, Slider, dll) */
+    .stSelectbox label, .stSlider label, .stRadio label {
+        color: #4a148c !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -69,11 +86,12 @@ st.markdown("""
 def load_data():
     try:
         df = pd.read_csv("day.csv")
-    except FileNotFoundError:
+    except:
+        # Fallback URL
         url = "https://raw.githubusercontent.com/danwild/bike-sharing-prediction/master/Bike-Sharing-Dataset/day.csv"
         df = pd.read_csv(url)
     
-    # Cleaning & Renaming sesuai analisis
+    # Cleaning & Renaming
     df.rename(columns={
         'yr': 'year',
         'mnth': 'month',
@@ -105,7 +123,7 @@ def load_data():
 df = load_data()
 
 # SIDEBAR FILTERS
-st.sidebar.title("🚲 Filter Data")
+st.sidebar.markdown("## 🚲 Filter Data")
 st.sidebar.write("Sesuaikan tampilan data di sini.")
 
 # Filter Tahun
@@ -125,10 +143,10 @@ if selected_year_val and selected_seasons:
     ]
 else:
     main_df = df.copy()
-    
+
 # MAIN PAGE LAYOUT
 st.title("🚲 Bike Sharing Analysis Dashboard")
-st.markdown("### 💜 Analisis Tren Penyewaan Sepeda & Prediksi")
+st.markdown("### 💜 Analisis Tren Penyewaan Sepeda & Prediksi Cerdas")
 st.write("Dashboard ini menyajikan hasil analisis mendalam mengenai faktor cuaca, musim, dan hari kerja terhadap penyewaan sepeda.")
 
 # KEY METRICS
@@ -141,10 +159,11 @@ with col3:
     st.metric("Hari Teramai", value=f"{main_df['count'].max():,}")
 with col4:
     st.metric("Hari Tersepi", value=f"{main_df['count'].min():,}")
+
 st.markdown("---")
 
 # TABS NAVIGATION
-tab1, tab2, tab3 = st.tabs(["📊 Exploratory Data Analysis (EDA)", "🤖 Prediksi Random Forest", "📝 Kesimpulan & Insight"])
+tab1, tab2, tab3 = st.tabs(["📊 Exploratory Data Analysis (EDA)", "🤖 Prediksi Machine Learning", "📝 Kesimpulan & Insight"])
 
 # EDA
 with tab1:
@@ -163,6 +182,7 @@ with tab1:
         ax_weather.set_xlabel("")
         ax_weather.grid(axis='y', linestyle='--', alpha=0.3)
         st.pyplot(fig_weather)
+        
     with col_eda2:
         st.info("**Insight Cuaca:**")
         st.markdown("""
@@ -170,6 +190,7 @@ with tab1:
         - **Hujan/Salju:** Penurunan drastis (>50%). Cuaca buruk adalah risiko terbesar bisnis.
         - **Mendung:** Masih stabil, namun lebih rendah dari cuaca cerah.
         """)
+
     st.markdown("---")
 
     # --- HARI KERJA VS LIBUR ---
@@ -218,28 +239,29 @@ with tab1:
 
 # MACHINE LEARNING
 with tab2:
-    st.header("🤖 Prediksi Jumlah Penyewaan (Random Forest)")
-    st.write("Model ini menggunakan **Random Forest Regresi** untuk memprediksi permintaan berdasarkan input kondisi.")
+    st.header("🤖 Prediksi Jumlah Penyewaan")
+    st.write("Model ini menggunakan **Random Forest Regressor**.")
 
     # --- MODEL TRAINING ---
-    # Persiapan Data
-    drop_cols = ['instant', 'dteday', 'casual', 'registered', 'count', 
-                 'season_label', 'weather_label', 'workingday_label']
-    cols_to_drop = [c for c in drop_cols if c in df.columns]
-    X = df.drop(columns=cols_to_drop)
+    # Memilih Fitur yang SUDAH direname (year, month, humidity)
+    # X Columns: 'season', 'year', 'month', 'holiday', 'weekday', 'workingday', 'weathersit', 'temp', 'atemp', 'humidity', 'windspeed'
+    # Kita pakai temp saja (atemp mirip temp)
+    
+    features = ['season', 'year', 'month', 'holiday', 'weekday', 'workingday', 'weathersit', 'temp', 'humidity', 'windspeed']
+    X = df[features]
     y = df['count']
     
-    # Train Model
+    # Train Model (Cached agar cepat)
     @st.cache_resource
     def train_model(X, y):
         model = RandomForestRegressor(n_estimators=100, random_state=42)
         model.fit(X, y)
         return model
+
     model = train_model(X, y)
     
     # --- USER INPUT ---
     st.subheader("🎮 Coba Prediksi")
-    
     col_in1, col_in2, col_in3 = st.columns(3)
     
     with col_in1:
@@ -263,15 +285,14 @@ with tab2:
     val_season = season_map[in_season]
     val_weather = weather_map[in_weather]
     val_workingday = 1 if in_is_working == "Ya" else 0
-    val_holiday = 0 if val_workingday == 1 else 1 # Asumsi sederhana
-    val_weekday = 3 if val_workingday == 1 else 6 # Asumsi sederhana
+    val_holiday = 0 if val_workingday == 1 else 1
+    # Asumsi sederhana untuk weekday: 3 (Rabu) jika kerja, 6 (Minggu) jika libur
+    val_weekday = 3 if val_workingday == 1 else 6
     
     # Prediksi Button
     if st.button("🔮 Prediksi Sekarang"):
-        # Urutan kolom harus sama persis dengan X saat training
-        # X columns: ['season', 'year', 'month', 'holiday', 'weekday', 'workingday', 'weathersit', 'temp', 'atemp', 'humidity', 'windspeed']
-        # Kita pakai atemp = temp + sedikit noise/biasa
-        input_data = [[val_season, in_year, in_month, val_holiday, val_weekday, val_workingday, val_weather, in_temp, in_temp, in_humidity, in_wind]]
+        # ['season', 'year', 'month', 'holiday', 'weekday', 'workingday', 'weathersit', 'temp', 'humidity', 'windspeed']
+        input_data = [[val_season, in_year, in_month, val_holiday, val_weekday, val_workingday, val_weather, in_temp, in_humidity, in_wind]]
         
         prediction = model.predict(input_data)[0]
         st.success(f"🚴 Estimasi Jumlah Penyewa: **{int(prediction):,}** sepeda")
@@ -279,19 +300,20 @@ with tab2:
     st.markdown("---")
     
     # --- FEATURE IMPORTANCE ---
-    st.subheader("🧠 Feature Importance (Analisis Faktor)")
+    st.subheader("🧠 Feature Importance")
     importances = model.feature_importances_
-    feature_df = pd.DataFrame({'Feature': X.columns, 'Importance': importances}).sort_values(by='Importance', ascending=False)
+    feature_df = pd.DataFrame({'Feature': features, 'Importance': importances}).sort_values(by='Importance', ascending=False)
     
     fig_imp, ax_imp = plt.subplots(figsize=(10, 6))
     sns.barplot(x='Importance', y='Feature', data=feature_df, palette="Purples_r", ax=ax_imp)
     ax_imp.set_title("Faktor Paling Berpengaruh Terhadap Penyewaan")
     st.pyplot(fig_imp)
+    
     st.markdown("""
-    **Insight Model :**
-    1. **Suhu (Temp/Atemp)** adalah faktor pertama.
-    2. **Tahun (Year)** menunjukkan pertumbuhan bisnis jangka panjang.
-    3. **Cuaca & Kelembaban** lebih penting daripada kecepatan angin.
+    **Insight Model:**
+    1. **Suhu (Temp)** adalah faktor penentu utama.
+    2. **Tahun (Year)** menunjukkan pertumbuhan bisnis.
+    3. **Cuaca & Kelembaban** berpengaruh signifikan.
     """)
 
 # KESIMPULAN
@@ -299,26 +321,26 @@ with tab3:
     st.header("📝 Kesimpulan & Insight Strategis")
     
     st.markdown("""
-    <div style="background-color: #ede7f6; padding: 20px; border-radius: 10px; border-left: 5px solid #4a148c;">
-        <h4> Suhu adalah Kunci Pendapatan</h4>
+    <div style="background-color: #f3e5f5; padding: 20px; border-radius: 10px; border-left: 5px solid #4a148c; color: #000000;">
+        <h4 style="color: #4a148c;">1. Suhu adalah "Kunci" Pendapatan</h4>
         <p>Faktor paling penentu laris atau tidaknya sepeda adalah suhu udara. Semakin hangat cuaca, penyewaan semakin meningkat. 
         Sebaliknya, hujan adalah musuh utama bisnis ini karena bisa membuat pendapatan anjlok lebih dari 50% dalam sehari.</p>
     </div>
     <br>
-    <div style="background-color: #ede7f6; padding: 20px; border-radius: 10px; border-left: 5px solid #7b1fa2;">
-        <h4> Sepeda untuk Bekerja (Komuter)</h4>
+    <div style="background-color: #f3e5f5; padding: 20px; border-radius: 10px; border-left: 5px solid #7b1fa2; color: #000000;">
+        <h4 style="color: #4a148c;">2. Sepeda untuk Bekerja (Komuter)</h4>
         <p>Secara umum, sepeda lebih banyak disewa pada Hari Kerja (Senin-Jumat) dibandingkan hari libur. 
         Ini membuktikan bahwa pelanggan utama adalah orang yang menggunakan sepeda sebagai alat transportasi rutin ke kantor atau sekolah.</p>
     </div>
     <br>
-    <div style="background-color: #ede7f6; padding: 20px; border-radius: 10px; border-left: 5px solid #ab47bc;">
-        <h4> Keunikan Musim Panas (Wisata)</h4>
+    <div style="background-color: #f3e5f5; padding: 20px; border-radius: 10px; border-left: 5px solid #ab47bc; color: #000000;">
+        <h4 style="color: #4a148c;">3. Keunikan Musim Panas (Wisata)</h4>
         <p>Ada pengecualian unik di Musim Panas: orang justru lebih banyak menyewa sepeda di Hari Libur. 
         Ini tandanya, saat musim panas, fungsi sepeda berubah dari "alat transportasi" menjadi "alat rekreasi/wisata".</p>
     </div>
     <br>
-    <div style="background-color: #ede7f6; padding: 20px; border-radius: 10px; border-left: 5px solid #ce93d8;">
-        <h4> Pertumbuhan Bisnis Positif</h4>
+    <div style="background-color: #f3e5f5; padding: 20px; border-radius: 10px; border-left: 5px solid #ce93d8; color: #000000;">
+        <h4 style="color: #4a148c;">4. Pertumbuhan Bisnis Positif</h4>
         <p>Tren tahunan menunjukkan arah positif. Jumlah pelanggan di tahun 2012 jauh lebih banyak daripada tahun 2011, 
         menandakan bisnis ini semakin populer dan berkembang sehat.</p>
     </div>
