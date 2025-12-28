@@ -1,5 +1,4 @@
 # bike-sharing-dashboard
-markdown
 # 🚲 Proyek Analisis Data: Bike Sharing Dataset
 
 Proyek ini bertujuan untuk menganalisis pola penyewaan sepeda pada sistem Bike Sharing. Analisis difokuskan pada pengaruh faktor lingkungan (cuaca, suhu, musim) dan faktor waktu (hari kerja vs hari libur) terhadap jumlah penyewaan sepeda. Proyek ini juga mencakup dashboard interaktif berbasis **Streamlit** untuk memvisualisasikan data dan melakukan prediksi sederhana menggunakan Machine Learning.
@@ -24,7 +23,9 @@ Dataset ini berisi data harian penyewaan sepeda selama dua tahun (2011-2012) den
 ### 1. Pastikan telah menginstal **Python** (versi 3.9 atau lebih baru). Disarankan untuk menggunakan virtual environment.
 
 ### 2. Install semua library yang dibutuhkan dengan menjalankan perintah berikut di terminal:
+```bash
 pip install -r requirements.txt
+```
 
 > Pastikan file `requirements.txt` berisi library berikut:
 > * pandas
@@ -37,8 +38,9 @@ pip install -r requirements.txt
 ### 3. Menjalankan Dashboard Streamlit
 
 Untuk membuka dashboard interaktif, jalankan perintah berikut di terminal:
-
+```bash
 streamlit run app.py
+```
 
 Setelah dijalankan, dashboard akan otomatis terbuka di browser Anda (biasanya di alamat `http://localhost:8501`).
 
@@ -63,5 +65,3 @@ Musim gugur mencatatkan rata-rata penyewaan tertinggi dibandingkan musim lainnya
 * Namun, pada **Musim Panas (Summer)**, terjadi anomali di mana penyewaan di **Hari Libur** melonjak tinggi, menandakan pergeseran fungsi sepeda menjadi alat rekreasi/wisata.
 4. **Pertumbuhan Bisnis Positif:**
 Tren tahunan menunjukkan peningkatan yang sehat. Jumlah penyewaan pada tahun 2012 secara konsisten lebih tinggi dibandingkan tahun 2011, menunjukkan ekspansi pasar yang sukses.
-
----
