@@ -55,3 +55,6 @@ Musim gugur mencatatkan rata-rata penyewaan tertinggi dibandingkan musim lainnya
 Pada umumnya, sepeda lebih banyak digunakan di **Hari Kerja** (Working Day), menandakan dominasi pengguna komuter (pekerja/pelajar). Namun, pada **Musim Panas (Summer)**, terjadi anomali di mana penyewaan di **Hari Libur** melonjak tinggi, menandakan pergeseran fungsi sepeda menjadi alat rekreasi/wisata.
 4. **Pertumbuhan Bisnis Positif:**
 Tren tahunan menunjukkan peningkatan yang sehat. Jumlah penyewaan pada tahun 2012 secara konsisten lebih tinggi dibandingkan tahun 2011, menunjukkan ekspansi pasar yang sukses.
+
+## Screenshot dashboard
+<img width="1901" height="737" alt="image" src="https://github.com/user-attachments/assets/5acfc98a-5804-4463-b459-a011ca92d95a" />
